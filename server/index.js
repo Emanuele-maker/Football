@@ -47,5 +47,4 @@ io.on("connection", socket => {
     })
 })
 
-const port = 3000 || process.env.PORT
-io.listen(port, () => console.log(`Server started on port ${port}`))
+io.listen(process.env.PORT || 3000, () => console.log(`Server started on port ${port}`))
