@@ -12,7 +12,7 @@ class Ball {
             x: 0,
             y: 0
         }
-        this.friction = 0.995
+        this.friction = 0.5
         this.color = "yellow"
     }
     update() {
