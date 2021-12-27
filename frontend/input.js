@@ -5,6 +5,11 @@ export default class Input {
             x: null,
             y: null
         }
+        this.mouseSpeed = {
+            x: null,
+            y: null
+        }
+        this.previousTouch = null
         canvas.addEventListener("mousedown", (event) => {
             this.mousePosition = {
                 x: event.offsetX,
@@ -22,6 +27,10 @@ export default class Input {
                 x: event.offsetX,
                 y: event.offsetY
             }
+            this.mouseSpeed = {
+                x: event.movementX,
+                y: event.movementY
+            }
         })
         canvas.addEventListener("touchstart", (event) => {
             const touch = event.touches[0]
@@ -31,7 +40,8 @@ export default class Input {
             }
             if (!this.mouseButtonsPressed.includes(0)) this.mouseButtonsPressed.push(0)
         })
-        canvas.addEventListener("touchend", () => {
+        canvas.addEventListener("touchend", (event) => {
+            if (event.touches.length === 0) this.previousTouch = null
             const index = this.mouseButtonsPressed.indexOf(0)
             if (index === -1) return
             this.mouseButtonsPressed.splice(index, 1)
@@ -42,6 +52,13 @@ export default class Input {
                 x: touch.pageX,
                 y: touch.pageY
             }
+            if (this.previousTouch) {
+                this.mouseSpeed = {
+                    x: touch.pageX - this.previousTouch.pageX,
+                    y: touch.pageY - this.previousTouch.pageY
+                }
+            }
+            this.previousTouch = touch
         })
     }
     isMouseButtonPressed(button) {
@@ -52,5 +69,11 @@ export default class Input {
     }
     get mouseY() {
         return this.mousePosition.y
+    }
+    get mouseSpeedX() {
+        return this.mouseSpeed.x
+    }
+    get mouseSpeedY() {
+        return this.mouseSpeed.y
     }
 }

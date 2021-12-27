@@ -1,6 +1,6 @@
 const io = require("socket.io")({
     cors: {
-        origin: "http://localhost:5500"
+        origin: "http://127.0.0.1:5500"
     }
 })
 
@@ -11,11 +11,11 @@ let game = null, gameInitted = false
 io.on("connection", socket => {
     const uid = socket.id
     const playerId = io.sockets.sockets.size
-    let mousePressed = false
     socket.emit("playerId", playerId)
     console.log(`A client has connected! UID: ${uid}`)
 
-    if (io.sockets.sockets.size < 2) gameInitted = false
+    if (playerId < 2) gameInitted = false
+    if (playerId > 2) return socket.emit("tooManyPlayers")
 
     socket.on("initGame", (w, h) => {
         if (!gameInitted) {
@@ -24,11 +24,12 @@ io.on("connection", socket => {
             startGameInterval()
         }
         game.createPlayer(playerId)
+        if (playerId === 2) game.startMatch()
     })
 
-    socket.on("mouseInfo", (pressed, x, y) => {
+    socket.on("mouseInfo", (pressed, x, y, speedX, speedY, playerId) => {
         if (!game) return
-        game.evalMouse(x, y, pressed)
+        game.evalMouseInfo(x, y, speedX, speedY, pressed, playerId)
     })
 
     function startGameInterval() {
@@ -39,6 +40,9 @@ io.on("connection", socket => {
     }
 
     socket.on("disconnect", () => {
+        if (game) {
+            game.deletePlayer(playerId)
+        }
         console.log(`A client has disconnected.. UID: ${uid}`)
     })
 })
