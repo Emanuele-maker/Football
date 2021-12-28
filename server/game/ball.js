@@ -13,12 +13,16 @@ class Ball {
             y: 0
         }
         this.friction = 0.98
+        this.maxSpeed = 10
         this.collidedAfterKickoff = false
         this.color = "yellow"
     }
     update() {
         this.position.x += this.speed.x
         this.position.y += this.speed.y
+
+        if (this.speed.x > this.maxSpeed) this.speed.x = this.maxSpeed
+        if (this.speed.y > this.maxSpeed) this.speed.y = this.maxSpeed
 
         this.speed.x *= this.friction
         this.speed.y *= this.friction
