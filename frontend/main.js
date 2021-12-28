@@ -1,6 +1,6 @@
 import Input from "./input.js"
 
-const socket = io(/*"https://crazy-football.herokuapp.com"*/"http://localhost:3000")
+const socket = io("https://crazy-football.herokuapp.com")
 let game, playerId
 socket.on("game", gameState => game = gameState)
 socket.on("playerId", id => playerId = id)
