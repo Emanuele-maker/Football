@@ -11,8 +11,8 @@ const canvas = document.body.appendChild(document.createElement("canvas"))
 const ctx = canvas.getContext("2d")
 const input = new Input(canvas)
 
-canvas.width = 950
-canvas.height = 520
+canvas.width = 1280
+canvas.height = 720
 socket.emit("initGame", canvas.width, canvas.height)
 
 function updateInput() {
