@@ -77,6 +77,12 @@ class Game {
             this.state = "waiting"
             this.started = false
         }
+        if (!this.ball.collidedAfterKickoff) {
+            this.ball.speed = {
+                x: 0,
+                y: 0
+            }
+        }
         if (this.state === "playing") {
             this.objects.forEach(object => {
                 if (Array.isArray(object)) {
@@ -88,6 +94,7 @@ class Game {
 
             this.players.forEach(player => {
                 if (circleIntersect(player.position.x, player.position.y, player.radius, this.ball.position.x, this.ball.position.y, this.ball.radius)) {
+                    this.ball.collidedAfterKickoff = true
                     applyVectorSpeed(player, this.ball)
                 }
             })
@@ -119,6 +126,7 @@ class Game {
             }
 
         } else if (this.state === "countdown") {
+            this.ball.collidedAfterKickoff = false
             this.countDown.resume()
             this.countDown.update()
             if (this.countDown.seconds === this.countDown.maxSeconds) {

@@ -24,10 +24,12 @@ function applyVectorSpeed(obj1, obj2) {
     }
     const speed = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y
     
-    obj1.speed.x -= (speed * vCollisionNorm.x)
-    obj1.speed.y -= (speed * vCollisionNorm.y)
-    obj2.speed.x += (speed * vCollisionNorm.x)
-    obj2.speed.y += (speed * vCollisionNorm.y)
+    if (obj2.collidedAfterKickoff) {
+        obj1.speed.x -= (speed * vCollisionNorm.x)
+        obj1.speed.y -= (speed * vCollisionNorm.y)
+        obj2.speed.x += (speed * vCollisionNorm.x)
+        obj2.speed.y += (speed * vCollisionNorm.y)
+    }
 }
 
 function detectCollisionsWithWalls(object, gameWidth, gameHeight) {
