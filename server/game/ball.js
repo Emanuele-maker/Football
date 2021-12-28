@@ -12,7 +12,7 @@ class Ball {
             x: 0,
             y: 0
         }
-        this.friction = 0.991
+        this.friction = 0.98
         this.collidedAfterKickoff = false
         this.color = "yellow"
     }
