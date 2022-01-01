@@ -36,7 +36,7 @@ io.on("connection", socket => {
         const interval = setInterval(() => {
             game.update()
             io.emit("game", game)
-        }, 10)
+        })
     }
 
     socket.on("disconnect", () => {
